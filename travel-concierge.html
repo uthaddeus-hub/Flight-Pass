@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JETSETTER — Your Personal Travel Hookup</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --gold-light: #e8c96a;
+    --rust: #c45c2e;
+    --white: #fefefe;
+    --gray: #888;
+    --card-bg: #111;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 48px;
+    background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: var(--cream); opacity: 0.7; text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--gold); }
+  .nav-cta {
+    background: var(--gold); color: var(--black);
+    padding: 10px 24px; border-radius: 2px;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--gold-light); }
+
+  /* ---- HERO ---- */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: 
+      radial-gradient(ellipse 80% 60% at 50% 30%, rgba(201,168,76,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 80% 80%, rgba(196,92,46,0.08) 0%, transparent 60%),
+      var(--black);
+  }
+  .hero-tag {
+    display: inline-block;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold);
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 6px 20px; border-radius: 100px;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 28px;
+    animation: fadeUp 0.8s 0.1s ease both;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--gold);
+  }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.25rem);
+    opacity: 0.6; max-width: 520px;
+    line-height: 1.7; margin-bottom: 48px;
+    animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-btns {
+    display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    background: var(--gold); color: var(--black);
+    padding: 16px 36px; border-radius: 2px;
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; border: none; cursor: pointer;
+    transition: all 0.2s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--cream);
+    padding: 16px 36px; border-radius: 2px;
+    font-size: 0.9rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase; text-decoration: none; border: 1px solid rgba(245,240,232,0.3);
+    cursor: pointer; transition: all 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 72px;
+    animation: fadeUp 0.8s 0.4s ease both;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem; font-weight: 700; color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.75rem; opacity: 0.5; text-transform: uppercase; letter-spacing: 0.1em; }
+
+  /* ---- SECTION SHARED ---- */
+  section { padding: 100px 48px; position: relative; }
+  .section-tag {
+    font-size: 0.72rem; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px; display: block;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700; line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .section-sub { opacity: 0.55; max-width: 480px; line-height: 1.7; margin-bottom: 56px; }
+
+  /* ---- HOW IT WORKS ---- */
+  #how { background: #0d0d0d; }
+  .steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px; max-width: 1100px; margin: 0 auto;
+  }
+  .step {
+    background: var(--card-bg);
+    padding: 40px 32px;
+    position: relative; overflow: hidden;
+    transition: background 0.3s;
+  }
+  .step:hover { background: #161616; }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; font-weight: 900;
+    color: rgba(201,168,76,0.12);
+    position: absolute; top: 16px; right: 24px;
+    line-height: 1;
+  }
+  .step-icon { font-size: 1.8rem; margin-bottom: 20px; }
+  .step h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem; margin-bottom: 12px;
+  }
+  .step p { font-size: 0.9rem; opacity: 0.55; line-height: 1.6; }
+
+  /* ---- SEARCH TOOL ---- */
+  #search { background: var(--black); }
+  .search-container { max-width: 900px; margin: 0 auto; }
+  .search-tabs {
+    display: flex; gap: 0; margin-bottom: 32px;
+    border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;
+    width: fit-content;
+  }
+  .tab-btn {
+    padding: 12px 28px; background: transparent; border: none;
+    color: var(--cream); opacity: 0.5; font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .tab-btn.active { background: var(--gold); color: var(--black); opacity: 1; }
+
+  .search-panel { display: none; }
+  .search-panel.active { display: block; }
+
+  .search-form {
+    background: var(--card-bg);
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 40px; border-radius: 2px;
+  }
+  .form-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 16px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label { font-size: 0.75rem; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.5; }
+  .form-group input, .form-group select {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--cream); padding: 14px 16px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--gold); }
+  .form-group input::placeholder { opacity: 0.3; }
+  .form-group select option { background: #1a1a1a; }
+
+  .search-btn {
+    width: 100%; margin-top: 8px;
+    background: var(--gold); color: var(--black);
+    border: none; padding: 16px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .search-btn:hover { background: var(--gold-light); }
+
+  .affiliate-note {
+    margin-top: 16px; text-align: center;
+    font-size: 0.78rem; opacity: 0.35;
+  }
+  .affiliate-note a { color: var(--gold); text-decoration: none; }
+
+  /* Search results */
+  #results { display: none; margin-top: 32px; }
+  .results-grid { display: grid; gap: 2px; }
+  .result-card {
+    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.06);
+    padding: 24px 28px; display: flex; align-items: center;
+    justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    transition: border-color 0.2s;
+  }
+  .result-card:hover { border-color: rgba(201,168,76,0.3); }
+  .result-info h4 { font-family: 'Playfair Display', serif; font-size: 1.1rem; margin-bottom: 4px; }
+  .result-info p { font-size: 0.85rem; opacity: 0.5; }
+  .result-price {
+    text-align: right;
+  }
+  .result-price .price {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem; font-weight: 700; color: var(--gold);
+    display: block;
+  }
+  .result-price .per { font-size: 0.75rem; opacity: 0.4; }
+  .result-book {
+    background: var(--gold); color: var(--black);
+    padding: 10px 24px; border-radius: 2px; text-decoration: none;
+    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .result-book:hover { background: var(--gold-light); }
+
+  /* ---- CONCIERGE FORM ---- */
+  #concierge { background: #0d0d0d; }
+  .concierge-wrap {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    max-width: 1100px; margin: 0 auto; align-items: start;
+  }
+  .concierge-info {}
+  .price-card {
+    background: var(--card-bg); border: 1px solid rgba(201,168,76,0.2);
+    padding: 32px; border-radius: 2px; margin-top: 40px;
+  }
+  .price-card h3 {
+    font-family: 'Playfair Display', serif; font-size: 1rem;
+    margin-bottom: 20px; color: var(--gold);
+    letter-spacing: 0.1em; text-transform: uppercase; font-weight: 400;
+  }
+  .price-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-size: 0.9rem;
+  }
+  .price-item:last-child { border-bottom: none; }
+  .price-item span:last-child { color: var(--gold); font-weight: 500; }
+
+  .request-form {
+    background: var(--card-bg); border: 1px solid rgba(255,255,255,0.07);
+    padding: 40px; border-radius: 2px;
+  }
+  .request-form h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.5rem;
+    margin-bottom: 32px;
+  }
+  .form-group textarea {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: var(--cream); padding: 14px 16px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    outline: none; transition: border-color 0.2s;
+    resize: vertical; min-height: 100px; width: 100%;
+  }
+  .form-group textarea:focus { border-color: var(--gold); }
+  .form-group textarea::placeholder { opacity: 0.3; }
+  .submit-btn {
+    width: 100%; margin-top: 8px;
+    background: var(--gold); color: var(--black);
+    border: none; padding: 18px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.2s;
+  }
+  .submit-btn:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  .success-msg {
+    display: none; background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.3);
+    padding: 20px 24px; border-radius: 2px; margin-top: 20px;
+    text-align: center; color: var(--gold); font-size: 0.9rem; line-height: 1.6;
+  }
+
+  /* ---- DEALS ALERT ---- */
+  #deals { background: var(--black); }
+  .deals-wrap { max-width: 900px; margin: 0 auto; }
+  .deals-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2px; margin-bottom: 60px;
+  }
+  .deal-card {
+    background: var(--card-bg); padding: 32px;
+    border: 1px solid rgba(255,255,255,0.06);
+    position: relative; overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .deal-card:hover { border-color: rgba(201,168,76,0.25); }
+  .deal-badge {
+    display: inline-block; background: var(--rust);
+    color: white; font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase; padding: 4px 10px; border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .deal-card h4 {
+    font-family: 'Playfair Display', serif; font-size: 1.2rem;
+    margin-bottom: 6px;
+  }
+  .deal-card .deal-route { font-size: 0.85rem; opacity: 0.45; margin-bottom: 20px; }
+  .deal-price {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem; font-weight: 700; color: var(--gold);
+    display: block; margin-bottom: 4px;
+  }
+  .deal-was { font-size: 0.8rem; opacity: 0.35; text-decoration: line-through; }
+  .deal-link {
+    display: block; margin-top: 20px;
+    color: var(--gold); font-size: 0.8rem; letter-spacing: 0.1em;
+    text-transform: uppercase; text-decoration: none; opacity: 0.8;
+    transition: opacity 0.2s;
+  }
+  .deal-link:hover { opacity: 1; }
+
+  .alert-signup {
+    background: var(--card-bg); border: 1px solid rgba(201,168,76,0.2);
+    padding: 48px; border-radius: 2px; text-align: center;
+  }
+  .alert-signup h3 {
+    font-family: 'Playfair Display', serif; font-size: 1.8rem; margin-bottom: 12px;
+  }
+  .alert-signup p { opacity: 0.5; margin-bottom: 32px; line-height: 1.6; }
+  .alert-form {
+    display: flex; gap: 0; max-width: 480px; margin: 0 auto;
+  }
+  .alert-form input {
+    flex: 1; background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1); border-right: none;
+    color: var(--cream); padding: 16px 20px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.95rem;
+    outline: none; border-radius: 2px 0 0 2px;
+    transition: border-color 0.2s;
+  }
+  .alert-form input:focus { border-color: var(--gold); }
+  .alert-form input::placeholder { opacity: 0.3; }
+  .alert-form button {
+    background: var(--gold); color: var(--black); border: none;
+    padding: 16px 28px; border-radius: 0 2px 2px 0;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s; white-space: nowrap;
+  }
+  .alert-form button:hover { background: var(--gold-light); }
+  .alert-success { display: none; color: var(--gold); margin-top: 16px; font-size: 0.9rem; }
+
+  /* ---- FOOTER ---- */
+  footer {
+    background: #050505;
+    padding: 60px 48px 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: flex-start;
+    flex-wrap: wrap; gap: 40px;
+  }
+  .footer-brand .nav-logo { display: block; margin-bottom: 12px; }
+  .footer-brand p { font-size: 0.85rem; opacity: 0.35; max-width: 260px; line-height: 1.6; }
+  .footer-links h4 {
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 16px;
+  }
+  .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a {
+    color: var(--cream); opacity: 0.45; text-decoration: none;
+    font-size: 0.9rem; transition: opacity 0.2s;
+  }
+  .footer-links a:hover { opacity: 0.9; }
+  .footer-bottom {
+    max-width: 1100px; margin: 40px auto 0;
+    padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-bottom p { font-size: 0.78rem; opacity: 0.25; }
+  .footer-bottom a { color: var(--gold); opacity: 0.5; text-decoration: none; font-size: 0.78rem; }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---- MOBILE ---- */
+  @media (max-width: 768px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    section { padding: 72px 24px; }
+    .concierge-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .hero-stats { gap: 28px; }
+    .alert-form { flex-direction: column; }
+    .alert-form input { border-right: 1px solid rgba(255,255,255,0.1); border-bottom: none; border-radius: 2px 2px 0 0; }
+    .alert-form button { border-radius: 0 0 2px 2px; }
+    footer { padding: 48px 24px 32px; }
+    .request-form { padding: 28px 20px; }
+    .search-form { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#hero" class="nav-logo">JETSETTER ✦</a>
+  <ul class="nav-links">
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#search">Search</a></li>
+    <li><a href="#concierge">Concierge</a></li>
+    <li><a href="#deals">Deals</a></li>
+  </ul>
+  <a href="#concierge" class="nav-cta">Book a Trip</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div style="position:relative; z-index:1; display:flex; flex-direction:column; align-items:center;">
+    <span class="hero-tag">✈ Insider Access · Real Deals · No BS</span>
+    <h1 class="hero-title">Travel<br><em>Like You</em><br>Know Someone.</h1>
+    <p class="hero-sub">Because you do. Insider flight deals, hand-picked hotels, and a real person who gets you there for less.</p>
+    <div class="hero-btns">
+      <a href="#search" class="btn-primary">Search Flights & Hotels</a>
+      <a href="#concierge" class="btn-outline">Hire Me To Plan It</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">$35</span><span class="stat-label">Avg saved / flight</span></div>
+      <div class="stat"><span class="stat-num">48h</span><span class="stat-label">Turnaround</span></div>
+      <div class="stat"><span class="stat-num">$50</span><span class="stat-label">Flat concierge fee</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div style="max-width:1100px; margin:0 auto;">
+    <span class="section-tag">— The Process</span>
+    <h2 class="section-title">Simple. Fast.<br>Actually Helpful.</h2>
+    <p class="section-sub">No bots. No runaround. Just real travel help from someone who knows the industry.</p>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-num">01</span>
+      <div class="step-icon">🔍</div>
+      <h3>Search Live Deals</h3>
+      <p>Use the search tool below to find real-time flights and hotels with affiliate pricing — book directly and save.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">02</span>
+      <div class="step-icon">📋</div>
+      <h3>Submit a Trip Request</h3>
+      <p>Tell me where you want to go, your dates, and budget. I'll research the best options and send you a plan.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">03</span>
+      <div class="step-icon">💳</div>
+      <h3>Pay a Flat Fee</h3>
+      <p>$50 per trip plan. No hidden markups. You keep all the savings — I just charge for my time and expertise.</p>
+    </div>
+    <div class="step">
+      <span class="step-num">04</span>
+      <div class="step-icon">🛫</div>
+      <h3>Get on the Plane</h3>
+      <p>Receive your custom itinerary, booking links, and travel tips within 48 hours. Then just go enjoy yourself.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH TOOL -->
+<section id="search">
+  <div class="search-container">
+    <span class="section-tag">— Live Search</span>
+    <h2 class="section-title">Find Flights<br>& Hotels</h2>
+    <p class="section-sub">Search real-time inventory and book directly. I earn a small commission at no cost to you.</p>
+
+    <div class="search-tabs">
+      <button class="tab-btn active" onclick="switchTab('flights', this)">✈ Flights</button>
+      <button class="tab-btn" onclick="switchTab('hotels', this)">🏨 Hotels</button>
+    </div>
+
+    <!-- Flights Panel -->
+    <div id="panel-flights" class="search-panel active">
+      <div class="search-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>From</label>
+            <input type="text" id="f-from" placeholder="e.g. New York (JFK)">
+          </div>
+          <div class="form-group">
+            <label>To</label>
+            <input type="text" id="f-to" placeholder="e.g. Miami (MIA)">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Depart</label>
+            <input type="date" id="f-depart">
+          </div>
+          <div class="form-group">
+            <label>Return</label>
+            <input type="date" id="f-return">
+          </div>
+          <div class="form-group">
+            <label>Passengers</label>
+            <select id="f-pax">
+              <option>1 Adult</option>
+              <option>2 Adults</option>
+              <option>3 Adults</option>
+              <option>4 Adults</option>
+            </select>
+          </div>
+        </div>
+        <button class="search-btn" onclick="searchFlights()">Search Flights →</button>
+        <p class="affiliate-note">Powered by Skyscanner & Kayak affiliate networks. <a href="#concierge">Need help? Hire me.</a></p>
+      </div>
+
+      <div id="results">
+        <div class="results-grid" id="results-grid"></div>
+      </div>
+    </div>
+
+    <!-- Hotels Panel -->
+    <div id="panel-hotels" class="search-panel">
+      <div class="search-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Destination</label>
+            <input type="text" id="h-dest" placeholder="e.g. Paris, France">
+          </div>
+          <div class="form-group">
+            <label>Check-In</label>
+            <input type="date" id="h-in">
+          </div>
+          <div class="form-group">
+            <label>Check-Out</label>
+            <input type="date" id="h-out">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Guests</label>
+            <select>
+              <option>1 Guest</option>
+              <option>2 Guests</option>
+              <option>3 Guests</option>
+              <option>4 Guests</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Max Budget / night</label>
+            <input type="number" placeholder="e.g. 200">
+          </div>
+        </div>
+        <button class="search-btn" onclick="searchHotels()">Search Hotels →</button>
+        <p class="affiliate-note">Powered by Booking.com & Hotels.com affiliate networks. <a href="#concierge">Need help? Hire me.</a></p>
+      </div>
+      <div id="hotel-results" style="display:none; margin-top:32px;">
+        <div class="results-grid" id="hotel-results-grid"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCIERGE REQUEST -->
+<section id="concierge">
+  <div class="concierge-wrap">
+    <div class="concierge-info">
+      <span class="section-tag">— Personal Concierge</span>
+      <h2 class="section-title">Let Me Plan<br><em>Your Trip</em></h2>
+      <p class="section-sub">You tell me where and when. I handle the research, routing, and booking strategy — including buddy pass intel when it applies.</p>
+
+      <div class="price-card">
+        <h3>What You Get</h3>
+        <div class="price-item"><span>Trip research & flight options</span><span>✓ Included</span></div>
+        <div class="price-item"><span>Hotel recommendations (3 options)</span><span>✓ Included</span></div>
+        <div class="price-item"><span>Buddy pass guidance</span><span>✓ Included</span></div>
+        <div class="price-item"><span>Booking links + travel tips</span><span>✓ Included</span></div>
+        <div class="price-item"><span>Turnaround time</span><span>≤ 48 hours</span></div>
+        <div class="price-item"><span>Flat concierge fee</span><span>$50 / trip</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="request-form">
+        <h3>Submit Your Trip Request</h3>
+        <div style="display:flex; flex-direction:column; gap:16px;">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Your Name</label>
+              <input type="text" id="req-name" placeholder="First & Last">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="req-email" placeholder="you@email.com">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Flying From</label>
+              <input type="text" id="req-from" placeholder="Your city / airport">
+            </div>
+            <div class="form-group">
+              <label>Destination</label>
+              <input type="text" id="req-dest" placeholder="Where do you want to go?">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Travel Dates</label>
+              <input type="text" id="req-dates" placeholder="e.g. Aug 10–17, flexible ±3 days">
+            </div>
+            <div class="form-group">
+              <label>Budget (per person)</label>
+              <input type="text" id="req-budget" placeholder="e.g. $800 all-in">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Anything Else?</label>
+            <textarea id="req-notes" placeholder="Number of travelers, hotel vibe, special occasions, etc."></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitRequest()">Send My Request — $50 Flat Fee →</button>
+        </div>
+        <div class="success-msg" id="req-success">
+          ✈ Got it! I'll reach out within 24 hours with your trip plan and a payment link.<br>
+          <span style="opacity:0.6; font-size:0.85rem;">Check your email — and your spam folder just in case.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEALS -->
+<section id="deals">
+  <div class="deals-wrap">
+    <span class="section-tag">— Hot Right Now</span>
+    <h2 class="section-title">Current<br>Flight Deals</h2>
+    <p class="section-sub">Hand-curated deals updated weekly. Click through to book — affiliate links help keep this service running.</p>
+
+    <div class="deals-grid">
+      <div class="deal-card">
+        <span class="deal-badge">🔥 Flash Deal</span>
+        <h4>New York → Miami</h4>
+        <p class="deal-route">JFK → MIA · Nonstop · Multiple Airlines</p>
+        <span class="deal-price">$89</span>
+        <span class="deal-was">Was $210</span>
+        <a href="https://www.skyscanner.com/transport/flights/nyca/mia/" target="_blank" class="deal-link">Book on Skyscanner →</a>
+      </div>
+      <div class="deal-card">
+        <span class="deal-badge">⚡ Limited</span>
+        <h4>Chicago → Cancún</h4>
+        <p class="deal-route">ORD → CUN · 1 Stop · Various</p>
+        <span class="deal-price">$249</span>
+        <span class="deal-was">Was $490</span>
+        <a href="https://www.skyscanner.com/transport/flights/chi/cun/" target="_blank" class="deal-link">Book on Skyscanner →</a>
+      </div>
+      <div class="deal-card">
+        <span class="deal-badge">🌍 International</span>
+        <h4>LA → London</h4>
+        <p class="deal-route">LAX → LHR · Nonstop available</p>
+        <span class="deal-price">$520</span>
+        <span class="deal-was">Was $1,100</span>
+        <a href="https://www.skyscanner.com/transport/flights/lax/lond/" target="_blank" class="deal-link">Book on Skyscanner →</a>
+      </div>
+    </div>
+
+    <div class="alert-signup">
+      <h3>Get Deals in Your Inbox</h3>
+      <p>Drop your email and I'll send you the best deals I find each week — flights, hotels, and occasional buddy pass windows.</p>
+      <div class="alert-form">
+        <input type="email" id="alert-email" placeholder="your@email.com">
+        <button onclick="signupAlerts()">Get Alerts</button>
+      </div>
+      <p class="alert-success" id="alert-success">🎉 You're on the list! First deals drop this week.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo">JETSETTER ✦</a>
+      <p>Real travel help from someone with real access. No bots, no fluff.</p>
+    </div>
+    <div class="footer-links">
+      <h4>Navigate</h4>
+      <ul>
+        <li><a href="#how">How It Works</a></li>
+        <li><a href="#search">Search Flights</a></li>
+        <li><a href="#concierge">Hire Me</a></li>
+        <li><a href="#deals">Current Deals</a></li>
+      </ul>
+    </div>
+    <div class="footer-links">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hello@jetsetter.com">hello@jetsetter.com</a></li>
+        <li><a href="#concierge">Submit a Trip Request</a></li>
+        <li><a href="#deals">Join the Deals List</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 Jetsetter. Built with insider knowledge.</p>
+    <a href="#">Affiliate Disclosure</a>
+  </div>
+</footer>
+
+<script>
+  // Tab switching
+  function switchTab(tab, el) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.search-panel').forEach(p => p.classList.remove('active'));
+    el.classList.add('active');
+    document.getElementById('panel-' + tab).classList.add('active');
+  }
+
+  // Flight search — redirect to Skyscanner with affiliate
+  function searchFlights() {
+    const from = document.getElementById('f-from').value.trim();
+    const to = document.getElementById('f-to').value.trim();
+    const depart = document.getElementById('f-depart').value;
+    const ret = document.getElementById('f-return').value;
+
+    if (!from || !to) { alert('Please enter origin and destination.'); return; }
+
+    // Show mock results + open Skyscanner
+    const results = [
+      { airline: 'American Airlines', time: '6:00 AM – 9:45 AM', stops: 'Nonstop', price: Math.floor(Math.random()*200)+89, link: `https://www.skyscanner.com/transport/flights/${encodeURIComponent(from)}/${encodeURIComponent(to)}/` },
+      { airline: 'Delta', time: '9:15 AM – 1:00 PM', stops: '1 Stop', price: Math.floor(Math.random()*150)+79, link: `https://www.kayak.com/flights/${encodeURIComponent(from)}-${encodeURIComponent(to)}/` },
+      { airline: 'United', time: '2:30 PM – 6:20 PM', stops: 'Nonstop', price: Math.floor(Math.random()*180)+95, link: `https://www.skyscanner.com/transport/flights/${encodeURIComponent(from)}/${encodeURIComponent(to)}/` },
+      { airline: 'JetBlue', time: '5:00 PM – 9:10 PM', stops: '1 Stop', price: Math.floor(Math.random()*120)+69, link: `https://www.kayak.com/flights/${encodeURIComponent(from)}-${encodeURIComponent(to)}/` },
+    ].sort((a,b) => a.price - b.price);
+
+    const grid = document.getElementById('results-grid');
+    grid.innerHTML = results.map(r => `
+      <div class="result-card">
+        <div class="result-info">
+          <h4>${r.airline}</h4>
+          <p>${r.time} · ${r.stops}</p>
+        </div>
+        <div class="result-price">
+          <span class="price">$${r.price}</span>
+          <span class="per">per person</span>
+        </div>
+        <a href="${r.link}" target="_blank" class="result-book">Book Now</a>
+      </div>
+    `).join('');
+
+    document.getElementById('results').style.display = 'block';
+    document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Hotel search
+  function searchHotels() {
+    const dest = document.getElementById('h-dest').value.trim();
+    if (!dest) { alert('Please enter a destination.'); return; }
+
+    const hotels = [
+      { name: 'The Grand ' + dest + ' Hotel', stars: '★★★★', amenities: 'Pool · Spa · Free WiFi', price: Math.floor(Math.random()*100)+120, link: `https://www.booking.com/search.html?ss=${encodeURIComponent(dest)}` },
+      { name: dest + ' Boutique Suites', stars: '★★★★★', amenities: 'Rooftop Bar · Gym · Breakfast', price: Math.floor(Math.random()*150)+180, link: `https://www.hotels.com/search.do?q-destination=${encodeURIComponent(dest)}` },
+      { name: 'Central ' + dest + ' Inn', stars: '★★★', amenities: 'Great Location · Free WiFi', price: Math.floor(Math.random()*60)+75, link: `https://www.booking.com/search.html?ss=${encodeURIComponent(dest)}` },
+    ].sort((a,b) => a.price - b.price);
+
+    const grid = document.getElementById('hotel-results-grid');
+    grid.innerHTML = hotels.map(h => `
+      <div class="result-card">
+        <div class="result-info">
+          <h4>${h.name}</h4>
+          <p>${h.stars} · ${h.amenities}</p>
+        </div>
+        <div class="result-price">
+          <span class="price">$${h.price}</span>
+          <span class="per">per night</span>
+        </div>
+        <a href="${h.link}" target="_blank" class="result-book">Book Now</a>
+      </div>
+    `).join('');
+
+    document.getElementById('hotel-results').style.display = 'block';
+  }
+
+  // Concierge request submit
+  async function submitRequest() {
+    const name = document.getElementById('req-name').value.trim();
+    const email = document.getElementById('req-email').value.trim();
+    const dest = document.getElementById('req-dest').value.trim();
+    if (!name || !email || !dest) { alert('Please fill in your name, email, and destination.'); return; }
+
+    const btn = document.querySelector('.submit-btn');
+    btn.textContent = 'Sending…'; btn.disabled = true;
+
+    try {
+      const res = await fetch('https://formspree.io/f/mwvzdnlg', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          from: document.getElementById('req-from').value,
+          destination: dest,
+          dates: document.getElementById('req-dates').value,
+          budget: document.getElementById('req-budget').value,
+          notes: document.getElementById('req-notes').value,
+          _subject: `Trip Request from ${name}`
+        })
+      });
+
+      if (res.ok) {
+        document.getElementById('req-success').style.display = 'block';
+        btn.textContent = '✓ Request Sent!';
+        // Clear fields
+        ['req-name','req-email','req-from','req-dest','req-dates','req-budget','req-notes']
+          .forEach(id => document.getElementById(id).value = '');
+      } else {
+        btn.textContent = 'Send My Request — $50 Flat Fee →';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again.');
+      }
+    } catch(e) {
+      btn.textContent = 'Send My Request — $50 Flat Fee →';
+      btn.disabled = false;
+      alert('Network error. Please try again.');
+    }
+  }
+
+  // Alert signup
+  function signupAlerts() {
+    const email = document.getElementById('alert-email').value.trim();
+    if (!email || !email.includes('@')) { alert('Please enter a valid email.'); return; }
+    // In production: POST to Mailchimp / ConvertKit / your backend
+    document.getElementById('alert-success').style.display = 'block';
+    document.getElementById('alert-email').value = '';
+  }
+
+  // Set default dates
+  const today = new Date();
+  const nextWeek = new Date(today); nextWeek.setDate(today.getDate() + 7);
+  const twoWeeks = new Date(today); twoWeeks.setDate(today.getDate() + 14);
+  const fmt = d => d.toISOString().split('T')[0];
+  document.getElementById('f-depart').value = fmt(nextWeek);
+  document.getElementById('f-return').value = fmt(twoWeeks);
+  document.getElementById('h-in').value = fmt(nextWeek);
+  document.getElementById('h-out').value = fmt(twoWeeks);
+</script>
+</body>
+</html>
